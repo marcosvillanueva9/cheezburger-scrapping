@@ -1,11 +1,12 @@
 package main
 
 import (
-	"fmt"
 	"errors"
+	"fmt"
 	"io"
 	"net/http"
 	"os"
+	"strconv"
 
 	"github.com/gocolly/colly"
 )
@@ -13,7 +14,12 @@ import (
 func main() {
 
 	// Variables Definition
-	linkNum := 10
+	firstArg := os.Args[1]
+	linkNum, err := strconv.Atoi(firstArg)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
 	// Run Scrapper
 	c := colly.NewCollector(
@@ -27,7 +33,7 @@ func main() {
 	})
 
 
-	for i:= 1 ; i < 10 ; i++{
+	for i:= 1 ; i < 10 * linkNum ; i++{
 		fmt.Printf("Scraping Page: %d\n", i)
 		if i == 1 {
 			c.Visit("https://icanhas.cheezburger.com/")
